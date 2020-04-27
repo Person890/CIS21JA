@@ -1,0 +1,178 @@
+
+
+
+Title Assignment 7
+
+COMMENT !
+*****************
+date: November 29, 2019
+*****************
+!
+
+include irvine32.inc
+; ===============================================
+.data
+  
+  ; Fill your data here
+  array DWORD 39 dup(?)
+  greeting1 BYTE "Enter up to 40 unsigned dword integers. To end the array, enter 0.", 0
+  greeting2 BYTE "After each element press enter: ",0
+  greeting3 BYTE "Initial array: ",0
+  greeting4 BYTE "Array sorted in descending order: ",0
+;=================================================
+.code
+main proc
+
+  
+    
+	; FILL YOUR CODE HERE 
+	; YOU NEED TO CALL ENTER_ELEM, SORT_ARR AND PRINT_ARR PROCEDURES
+	; 
+mov edx, OFFSET greeting1
+call writeString
+call crlf
+call crlf
+
+mov edx, OFFSET greeeting2
+call writeString
+call crlf
+
+mov esi, OFFSET array
+mov ecx, LENGTHOF array
+push esi
+mov eax, 0
+	Loop1:
+		call readDec
+		mov [esi],eax
+		cmp eax, 0
+		JE end01
+		add esi, TYPE array
+		call enter_elem
+		loop Loop1
+
+		end01:
+		mov edx, OFFSET greeting3
+		call writeString
+		call print_arr
+
+exit
+main ENDP
+
+; ================================================
+; void enter_elem(arr_addr)
+;
+; Input:
+;   ARR_ADDRESS THROUGH THE STACK
+; Output:
+;   ARR_LENGTH THROUGH THE STACK
+; Operation:
+;   Fill the array and count the number of elements
+;
+enter_elem proc
+	
+    ; FILL YOUR CODE HERE
+mov eax, 0
+	Loop2:
+		call readDec
+		mov [esi],eax
+		cmp eax, 0
+		JE end02
+		push ebp
+		mov ebp, esp
+		push eax
+		push esi
+		mov esi, [ebp+12]
+		add esi, 4
+
+		end02: 
+			ret 4
+
+enter_elem endp
+
+; ================================================
+; void print_arr(arr_addr,arr_len)
+;
+; Input:
+;   ?
+; Output:
+;   ?
+; Operation:
+;  print out the array
+;
+
+print_arr proc
+
+  ; FILL YOUR CODE HERE
+
+  push ebp
+  mov ebp, esp
+  push eax
+
+	Loop3:
+		mov eax, DWORD ptr[esi]
+		call WriteDec
+		add esi, TYPE array
+		mov al, ', '
+		call writeChar
+		loop Loop3
+		pop eax
+		pop ebp
+
+		ret4
+
+print_arr endp
+
+; ================================================
+; void sort_arr(arr_addr,arr_len)
+;
+; Input:
+;   ?
+; Output:
+;   ?
+; Operation:
+;   sort the array
+;
+
+sort_arr proc
+
+   ; FILL YOUR CODE HERE
+   ; YOU NEED TO CALL COMPARE_AND_SWAP PROCEDURE 
+
+sort_arr endp
+
+; ===============================================
+; void compare_and_swap(x_addr,y_addr)
+;
+; Input:
+;   ?
+; Output:
+;   ?
+; Operation:
+;  compare and call SWAP ONLY IF Y > X 
+;
+
+compare_and_swap proc
+
+   ; FILL YOUR CODE HERE
+   ; YOU NEED TO CALL SWAP PROCEDURE 
+
+compare_and_swap endp
+
+; =================================================
+; void swap(x_addr,y_addr)
+;
+; Input:
+;   ?
+; Output:
+;   ?
+; Operation:
+;  swap the two inputs
+;
+
+swap proc
+
+   ; FILL YOUR CODE HERE
+
+swap endp
+
+end main
